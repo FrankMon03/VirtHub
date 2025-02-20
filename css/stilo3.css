@@ -1,0 +1,129 @@
+body {
+    /*background-image: url(../pic/fondo.jpg);*/
+    margin: 30px auto; /* Puedes ajustar este margen según tus preferencias */
+    /* max-width: 750px; /* Puedes ajustar este ancho máximo según tus preferencias */
+    max-width: auto;
+    font-family: 'Arial', sans-serif;
+    /*box-sizing: border-box;*/
+    width: 65%; /* Agregado para mejorar la responsividad */
+}
+
+header {
+    text-align: justify;
+    background-color: #96d899c9;
+    height: 110px;
+    display: flex;
+    justify-content: space-between;
+}
+
+header img {
+    width: 100px;
+    height: 100px;
+    /*margin-left: 3%;*/
+}
+
+
+header h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #000000;
+    font-size: 40px;
+    font-style: normal;
+    /*margin-right: 4%;*/
+    margin-bottom: 5px;
+}
+
+.btn-volver {
+    background-color: #7b3aa7; /* Cambia este color al que prefieras */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: block; /* Cambiado a inline-block para no abarcar todo el ancho */
+    font-size: 16px;
+    margin: 20px auto; /* Cambiado a auto para centrar horizontalmente */
+    cursor: pointer;
+    border-radius: 12px; /* Cambia el radio del borde si lo deseas */
+}
+
+.btn-volver:hover {
+    background-color: #7b3aa7; /* Cambia este color al que prefieras para el hover */
+}
+
+.marco {
+    width: 93%;
+    border: 5px solid #333;
+    padding: 20px;
+    background: #96d899c9;
+    text-align: center;
+    border-radius: 10px;
+    
+    /* Centrar en la página */
+    margin: 30px auto;  /* Esto lo centra horizontalmente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* Asegura que el contenido esté en columna */
+}
+.contenedor {
+    display: flex;
+    justify-content: center; /* Centra los rectángulos */
+    gap: 10px;
+    width: 100%; /* Asegura que ocupe todo el ancho disponible */
+}
+.rectangulo {
+    flex: 1;
+    padding: 20px;
+    border: 2px solid #555;
+    background-color: #ddd;
+    border-radius: 10px;
+    text-align: center;
+}
+h2 {
+    margin-bottom: 10px;
+}
+
+.contacto-recuadro {
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 80%;
+    background-color: #f9f9f9;
+}
+
+.contacto-tabla {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.contacto-tabla th, .contacto-tabla td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    vertical-align: top; /* Asegura que el contenido esté alineado en la parte superior */
+}
+
+.contacto-tabla th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.contacto-tabla tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.contacto-tabla tr:hover {
+    background-color: #ddd;
+}
+
+.contacto-imagen-celda {
+    vertical-align: middle; /* Centra verticalmente el contenido de la celda */
+    text-align: center; /* Centra horizontalmente el contenido de la celda */
+}
+
+.contacto-imagen {
+    width: 100px; /* Ajusta el ancho de la imagen según sea necesario */
+    height: auto; /* Mantiene la proporción de la imagen */
+    border-radius: 10px;
+}
