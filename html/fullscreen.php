@@ -6,10 +6,42 @@ if (!isset($_SESSION["authenticated"]) || !isset($_GET["url"])) {
     exit;
 }
 
+// Conectar a la base de datos y obtener el tipo de usuario
+$servername = "localhost";
+$username = "root";
+$password = "monika1155";
+$dbname = "virthub";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Conexión fallida: " . $conn->connect_error);
+}
+
+$matricula = $_SESSION["matricula"];
+$sql = "SELECT tipo_usuario FROM usuarios WHERE matricula = '$matricula'";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $tipo_usuario = $row["tipo_usuario"];
+    $_SESSION["tipo_usuario"] = $tipo_usuario; // Guardar el tipo de usuario en la sesión
+} else {
+    $tipo_usuario = "user";
+    $_SESSION["tipo_usuario"] = $tipo_usuario; // Guardar el tipo de usuario en la sesión
+}
+
+$conn->close();
+
 $url = $_GET["url"];
+$_SESSION["url"] = $url;
 $nombre = $_SESSION["nombre"];
 $apellido = $_SESSION["apellido"];
 $grupo = $_SESSION["grupo"];
+$nextcloud_url = "./nextcloud/index.php/login"; // URL de tu instancia de Nextcloud
+$nextcloud_username = $_SESSION["matricula"]; // Nombre de usuario de Nextcloud (matricula)
+$nextcloud_password = $_SESSION["password"]; // Contraseña de Nextcloud (password)
+
 ?>
 
 <!DOCTYPE html>
@@ -22,6 +54,8 @@ $grupo = $_SESSION["grupo"];
 </head>
 <body>
     <header>
+        <div class="header-text">
+            <p class="text-light grupo-text">Tipo: <?php echo $tipo_usuario; ?></p>
         <img src="../pic/logo_empersa.png" alt="" class="d-inline-block align-text-top">
         <div class="header-text">
             <h1 class="text-light"><?php echo $nombre . " " . $apellido; ?></h1>
@@ -31,7 +65,15 @@ $grupo = $_SESSION["grupo"];
     </header>
     <div class="topnav">
         <a href="logout.php" class="btn-volver">Cerrar Sesión</a>
-        <a href="linktemporal" class="btn-volver">NextCloud</a>
+        <a href="#" class="btn-nextcloud" onclick="openNextcloud()">NextCloud</a>
+        <?php if ($tipo_usuario == 'admin'): ?>
+            <a href="ag_user.php" class="btn-volver">Agregar Usuario</a>
+            <a href="admin_user.php" class="btn-volver">Administrar Usuarios</a>
+        <?php endif; ?>
+        <form id="nextcloudForm" action="<?php echo $nextcloud_url; ?>" method="post" target="nextcloudWindow" style="display:none;">
+            <input type="hidden" name="user" value="<?php echo $nextcloud_username; ?>">
+            <input type="hidden" name="password" value="<?php echo $nextcloud_password; ?>">
+        </form>
     </div>
     <div class="marco">
         <div class="contenedor">
@@ -54,6 +96,11 @@ $grupo = $_SESSION["grupo"];
             } else if (iframe.msRequestFullscreen) { // IE/Edge
                 iframe.msRequestFullscreen();
             }
+        }
+
+        function openNextcloud() {
+            var nextcloudWindow = window.open('', 'nextcloudWindow');
+            document.getElementById('nextcloudForm').submit();
         }
     </script>
 </body>
