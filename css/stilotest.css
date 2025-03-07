@@ -2,7 +2,7 @@ body {
     margin: 30px auto;
     max-width: 80%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(rgba(224, 224, 224, 0.2), rgba(255, 255, 255, 0.2)), url('../pic/windows_vista_17.jpg') no-repeat center center fixed;
+    background: linear-gradient(rgba(224, 224, 224, 0.2), rgba(255, 255, 255, 0.2)), url('../pic/fondo3.png') no-repeat center center fixed;
     background-size: cover;
     color: #333;
 }
