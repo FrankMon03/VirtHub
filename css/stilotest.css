@@ -158,7 +158,7 @@ p {
 }
 
 .contacto-imagen {
-    width: 100px; /* Ajusta el ancho de la imagen */
+    width: 150px; /* Ajusta el ancho de la imagen */
     height: auto; /* Mantiene la proporción de la imagen */
     border-radius: 10px;
 }
