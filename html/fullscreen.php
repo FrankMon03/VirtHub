@@ -49,6 +49,7 @@ $nextcloud_password = $_SESSION["password"]; // Contraseña de Nextcloud (passwo
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../pic/virthub_logo.png">
     <title>Bienvenido <?php echo $nombre?></title>
     <link rel="stylesheet" type="text/css" href="../css/stilotest.css">
 </head>
@@ -102,6 +103,17 @@ $nextcloud_password = $_SESSION["password"]; // Contraseña de Nextcloud (passwo
             var nextcloudWindow = window.open('', 'nextcloudWindow');
             document.getElementById('nextcloudForm').submit();
         }
+
+         // Función para ocultar la parte de la URL después del signo de interrogación
+        function hideUrlParams() {
+        if (window.history.replaceState) {
+            const url = window.location.protocol + "//" + window.location.host + window.location.pathname;
+            window.history.replaceState({path: url}, "", url);
+        }
+    }
+
+    // Llamar a la función para ocultar los parámetros de la URL
+    hideUrlParams();
     </script>
 </body>
 </html>

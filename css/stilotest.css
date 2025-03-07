@@ -120,7 +120,7 @@ p {
     width: 80%;
     background: rgba(255, 255, 255, 0.3); /* Fondo más transparente */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(5px);
 }
 
 .contacto-tabla {
@@ -143,6 +143,13 @@ p {
     color: white;
     font-weight: bold;
 }
+
+.nombre-columna{
+    background-color: rgba(76, 175, 80, 0.7); /* Fondo verde con transparencia */
+    color: white;
+    font-weight: bold;
+}
+
 
 .contacto-tabla tr:nth-child(even) {
     background-color: rgba(76, 175, 80, 0.1);

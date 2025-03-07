@@ -30,6 +30,7 @@ $result = $conn->query($sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../pic/virthub_logo.png">
     <title>Administrar Usuarios</title>
     <link rel="stylesheet" type="text/css" href="../css/stilotest.css">
 </head>
