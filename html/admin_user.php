@@ -59,22 +59,28 @@ $result = $conn->query($sql);
                     <?php
                     if ($result->num_rows > 0) {
                         while($row = $result->fetch_assoc()) {
+                            echo "<form action='update_user.php' method='post' style='display:inline;'>";
                             echo "<tr>";
-                            echo "<form action='update_user.php' method='post'>";
-                            echo "<td>" . $row["matricula"] . "</td>";
+                            echo "<td>" . $row["matricula"] . "<input type='hidden' name='matricula' value='" . $row["matricula"] . "'></td>";
                             echo "<td>" . $row["nombre"] . "</td>";
-                            echo "<td><input type='text' name='url' value='" . $row["url"] . "'></td>";
-                            echo "<td><select name='tipo_usuario'>";
+                            echo "<td><input type='text' name='url' value='" . htmlspecialchars($row["url"]) . "' class='login-input' required></td>";
+                            echo "<td><select name='tipo_usuario' class='login-input'>";
                             echo "<option value='user'" . ($row["tipo_usuario"] == 'user' ? ' selected' : '') . ">Usuario</option>";
                             echo "<option value='admin'" . ($row["tipo_usuario"] == 'admin' ? ' selected' : '') . ">Administrador</option>";
                             echo "</select></td>";
                             echo "<td>";
-                            echo "<input type='hidden' name='matricula' value='" . $row["matricula"] . "'>";
-                            echo "<button type='submit'>Guardar</button>";
+                            echo "<button type='submit' class='btn-volver'>Guardar</button>";
                             echo "</form>";
+
+                            // Botón para resetear password
+                            echo "<form action='reset_password.php' method='get' style='display:inline;'>";
+                            echo "<input type='hidden' name='matricula' value='" . $row["matricula"] . "'>";
+                            echo "<button type='submit' class='btn-volver' style='background:#f7b731;color:#222;'>Resetear Password</button>";
+                            echo "</form>";
+
                             echo "<form action='delete_user.php' method='post' style='display:inline;'>";
                             echo "<input type='hidden' name='matricula' value='" . $row["matricula"] . "'>";
-                            echo "<button type='submit'>Eliminar</button>";
+                            echo "<button type='submit' class='btn-volver'>Eliminar</button>";
                             echo "</form>";
                             echo "</td>";
                             echo "</tr>";

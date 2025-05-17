@@ -38,6 +38,34 @@
             });
         });
     </script>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    var menuToggle = document.getElementById('menu-toggle');
+    var topnav = document.getElementById('mainTopnav');
+
+    // Mostrar el botón solo en móviles
+    function checkMobile() {
+        if (window.innerWidth <= 768) {
+            menuToggle.style.display = 'block';
+            topnav.style.display = 'none';
+        } else {
+            menuToggle.style.display = 'none';
+            topnav.style.display = 'block';
+        }
+    }
+
+    menuToggle.addEventListener('click', function() {
+        if (topnav.style.display === 'block') {
+            topnav.style.display = 'none';
+        } else {
+            topnav.style.display = 'block';
+        }
+    });
+
+    window.addEventListener('resize', checkMobile);
+    checkMobile();
+});
+</script>
 </head>
 <body>
     <header>
@@ -45,10 +73,10 @@
         <h1 class="text-light">VirtHub</h1>
         <img src="../pic/virthub_logo.png" alt="" class="d-inline-block align-text-top">
     </header>
-    <div class="topnav">
+    <button id="menu-toggle" class="btn-volver" style="display:none; margin:10px auto;">☰ Menú</button>
+    <div class="topnav" id="mainTopnav">
         <a href="./html/login.php" class="btn-volver">Iniciar Sesión</a> 
-        <a href="./html/contacto.html" class="btn-volver">Contacto</a>
-        
+        <a href="./html/contacto.html" class="btn-volver">Contacto</a>    
     </div>
     <div class="marco">
         <div class="contenedor">

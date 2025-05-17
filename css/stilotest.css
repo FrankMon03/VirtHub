@@ -216,6 +216,13 @@ p {
     border-top-right-radius: 12px;
 }
 
+.info-tabla .btn-volver {
+    padding: 4px 12px;
+    font-size: 13px;
+    min-width: unset;
+    margin: 2px 2px;
+}
+
 /* --- Iframe y fullscreen --- */
 .iframe-container {
     position: relative;
@@ -407,6 +414,59 @@ table tr:hover {
     .login-container {
         margin: 10% auto;
     }
+    .info-tabla, .contacto-tabla, table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 10px;
+    }
+    .info-tabla thead, .contacto-tabla thead, table thead {
+        display: none;
+    }
+    .info-tabla tr, .contacto-tabla tr, table tr {
+        display: block;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        background: rgba(255,255,255,0.35);
+        padding: 10px;
+    }
+    .info-tabla td, .contacto-tabla td, table td {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 6px;
+        border: none;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+        font-size: 1em;
+        position: relative;
+    }
+    .info-tabla td:before, .contacto-tabla td:before, table td:before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #174C7F;
+        flex-basis: 45%;
+        text-align: left;
+        padding-right: 10px;
+        font-size: 0.98em;
+    }
+    .info-tabla tr:last-child td, .contacto-tabla tr:last-child td, table tr:last-child td {
+        border-bottom: none;
+    }
+    #mainTopnav {
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+    #mainTopnav a {
+        display: block;
+        margin: 8px 0;
+    }
+    #menu-toggle {
+        width: 90%;
+        text-align: center;
+    }
 }
 
 @media screen and (max-width: 480px) {
@@ -426,6 +486,14 @@ table tr:hover {
     }
     .login-input {
         padding: 10px;
+    }
+    .info-tabla tr, .contacto-tabla tr, table tr {
+        padding: 6px;
+        font-size: 0.95em;
+    }
+    .info-tabla td, .contacto-tabla td, table td {
+        padding: 6px 4px;
+        font-size: 0.95em;
     }
 }
 

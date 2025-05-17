@@ -56,7 +56,6 @@ $nextcloud_password = $_SESSION["password"]; // Contraseña de Nextcloud (passwo
 <body>
     <header>
         <div class="header-text">
-            <!--<p class="text-light grupo-text">Tipo: <?php echo $tipo_usuario; ?></p>-->
         <img src="../pic/logo_empersa.png" alt="" class="d-inline-block align-text-top">
         <div class="header-text">
             <h1 class="text-light"><?php echo $nombre . " " . $apellido; ?></h1>
@@ -64,7 +63,8 @@ $nextcloud_password = $_SESSION["password"]; // Contraseña de Nextcloud (passwo
         </div>
         <img src="../pic/virthub_logo.png" alt="" class="d-inline-block align-text-top">
     </header>
-    <div class="topnav">
+    <button id="menu-toggle" class="btn-volver" style="display:none; margin:10px auto;">☰ Menú</button>
+    <div class="topnav" id="mainTopnav">
         <a href="logout.php" class="btn-volver">Cerrar Sesión</a>
         <?php if ($tipo_usuario == 'admin'): ?>
             <a href="ag_user.php" class="btn-volver">Agregar Usuario</a>
@@ -112,5 +112,33 @@ $nextcloud_password = $_SESSION["password"]; // Contraseña de Nextcloud (passwo
     // Llamar a la función para ocultar los parámetros de la URL
     hideUrlParams();
     </script>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    var menuToggle = document.getElementById('menu-toggle');
+    var topnav = document.getElementById('mainTopnav');
+
+    // Mostrar el botón solo en móviles
+    function checkMobile() {
+        if (window.innerWidth <= 768) {
+            menuToggle.style.display = 'block';
+            topnav.style.display = 'none';
+        } else {
+            menuToggle.style.display = 'none';
+            topnav.style.display = 'block';
+        }
+    }
+
+    menuToggle.addEventListener('click', function() {
+        if (topnav.style.display === 'block') {
+            topnav.style.display = 'none';
+        } else {
+            topnav.style.display = 'block';
+        }
+    });
+
+    window.addEventListener('resize', checkMobile);
+    checkMobile();
+});
+</script>
 </body>
 </html>

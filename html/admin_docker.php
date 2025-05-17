@@ -74,12 +74,12 @@ $containers = getDockerContainers();
                         if (count($containers) > 0) {
                             foreach ($containers as $container) {
                                 echo "<tr>";
-                                echo "<td>" . $container['id'] . "</td>";
-                                echo "<td>" . $container['name'] . "</td>";
-                                echo "<td>" . $container['image'] . "</td>";
-                                echo "<td>" . $container['status'] . "</td>";
-                                echo "<td>" . $container['ports'] . "</td>";
-                                echo "<td>";
+                                echo "<td data-label='ID'>" . $container['id'] . "</td>";
+                                echo "<td data-label='Nombre'>" . $container['name'] . "</td>";
+                                echo "<td data-label='Imagen'>" . $container['image'] . "</td>";
+                                echo "<td data-label='Estado'>" . $container['status'] . "</td>";
+                                echo "<td data-label='Puertos'>" . $container['ports'] . "</td>";
+                                echo "<td data-label='Acciones'>";
                                 echo "<form action='docker_actions.php' method='post' style='display:inline;'>";
                                 echo "<input type='hidden' name='id' value='" . $container['id'] . "'>";
                                 echo "<select name='action' required style='margin-bottom:6px;'>";
