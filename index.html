@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="shortcut icon" href="pic/logo_empersa.png">
+    <title>VirtHub</title>
+    <link href="../css/stilotest.css" rel="stylesheet">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let keys = [];
+            document.addEventListener('keydown', function(event) {
+                keys.push(event.key);
+                if (keys.join('').includes('1155')) {
+                    document.getElementById('myModal').style.display = 'block';
+                    keys = []; // Reinicia la secuencia de teclas
+                }
+            });
+
+            document.getElementById('closeModal').addEventListener('click', function() {
+                document.getElementById('myModal').style.display = 'none';
+            });
+
+            document.getElementById('openIframe').addEventListener('click', function(event) {
+                event.preventDefault();
+                document.getElementById('iframeModal').style.display = 'block';
+                document.getElementById('iframeContent').src = this.href;
+                document.getElementById('openInNewTab').href = this.href;
+            });
+
+            document.getElementById('closeIframeModal').addEventListener('click', function() {
+                document.getElementById('iframeModal').style.display = 'none';
+                document.getElementById('iframeContent').src = '';
+            });
+
+            document.getElementById('openInNewTab').addEventListener('click', function() {
+                document.getElementById('iframeModal').style.display = 'none';
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <img src="../pic/logo_empersa.png" alt="" class="d-inline-block align-text-top">
+        <h1 class="text-light">VirtHub</h1>
+        <img src="../pic/virthub_logo.png" alt="" class="d-inline-block align-text-top">
+    </header>
+    <div class="topnav">
+        <a href="./html/login.php" class="btn-volver">Iniciar Sesión</a> 
+        <a href="./html/contacto.html" class="btn-volver">Contacto</a>
+        
+    </div>
+    <div class="marco">
+        <div class="contenedor">
+            <table class="info-tabla">
+                <tr>
+                    <th>Misión</th>
+                    <th>Visión</th>
+                    <th>Objetivo General</th>
+                </tr>
+                <tr>
+                    <td>Ofrecer soluciones tecnológicas modernas mediante la implementación de servidores en la nube de manera accesible, eficiente y sostenible, que permite a instituciones públicas cuyos equipos de cómputo cuentan con recursos limitados, lo que dificulta la ejecución e instalación de aplicaciones fundamentales para las carreras del Área de Tecnologías de la Información y la Comunicación, lo cual reduce la productividad del tanto de estudiantes como de docentes.</td>
+                    <td>Ser líderes en la provisión de servicios de computación en la nube, facilitando el acceso a tecnologías avanzadas para instituciones educativas y empresas, promoviendo la innovación y el desarrollo sostenible.</td>
+                    <td>Desarrollar e implementar un servidor en la nube local con sistema operativo Linux que permita a los equipos de cómputo de bajos recursos tener acceso a aplicaciones que son necesarias para las practicas académicas de manera eficaz, contribuyendo a mejorar el desempeño estudiantil y docente, así como la seguridad de los datos utilizados en ellos optimizando el uso de recursos tecnológicos en la escuela. </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span id="closeModal" class="close">&times;</span>
+            <img src="../pic/monika.png" alt="Monika" style="width:100%">
+        </div>
+    </div>
+    </div>
+</body>
+</html>
