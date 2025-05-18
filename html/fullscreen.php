@@ -19,16 +19,17 @@ if ($conn->connect_error) {
 }
 
 $matricula = $_SESSION["matricula"];
-$sql = "SELECT tipo_usuario FROM usuarios WHERE matricula = '$matricula'";
+$sql = "SELECT tipo_usuario, foto_perfil FROM usuarios WHERE matricula = '$matricula'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $tipo_usuario = $row["tipo_usuario"];
-    $_SESSION["tipo_usuario"] = $tipo_usuario; // Guardar el tipo de usuario en la sesión
+    $_SESSION["tipo_usuario"] = $tipo_usuario;
+    $_SESSION["foto_perfil"] = $row["foto_perfil"];
 } else {
     $tipo_usuario = "user";
-    $_SESSION["tipo_usuario"] = $tipo_usuario; // Guardar el tipo de usuario en la sesión
+    $_SESSION["tipo_usuario"] = $tipo_usuario;
 }
 
 $conn->close();
@@ -38,9 +39,10 @@ $_SESSION["url"] = $url;
 $nombre = $_SESSION["nombre"];
 $apellido = $_SESSION["apellido"];
 $grupo = $_SESSION["grupo"];
-$nextcloud_url = "./nextcloud/index.php/login"; // URL de tu instancia de Nextcloud
-$nextcloud_username = $_SESSION["matricula"]; // Nombre de usuario de Nextcloud (matricula)
-$nextcloud_password = $_SESSION["password"]; // Contraseña de Nextcloud (password)
+
+// Obtener la foto de perfil del usuario
+$foto_perfil = isset($_SESSION["foto_perfil"]) ? $_SESSION["foto_perfil"] : "default.png";
+$foto_path = "./profile/" . $foto_perfil;
 
 ?>
 
@@ -64,8 +66,22 @@ $nextcloud_password = $_SESSION["password"]; // Contraseña de Nextcloud (passwo
         <img src="../pic/virthub_logo.png" alt="" class="d-inline-block align-text-top">
     </header>
     <button id="menu-toggle" class="btn-volver" style="display:none; margin:10px auto;">☰ Menú</button>
-    <div class="topnav" id="mainTopnav">
-        <a href="logout.php" class="btn-volver">Cerrar Sesión</a>
+    <div class="topnav" id="mainTopnav" style="position:relative;">
+        <div style="position:relative; display:inline-flex; align-items:center; vertical-align:middle; margin-right:10px;">
+            <div class="profile-pic-frame">
+                <img src="<?php echo $foto_path; ?>" alt="Foto de perfil" id="profile-pic">
+            </div>
+            <div id="profile-menu" style="display:none; position:absolute; right:0; top:60px; background:rgba(255,255,255,0.98); border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.12); min-width:180px; z-index:2147483647;">
+                <form id="form-foto" action="update_foto.php" method="post" enctype="multipart/form-data" style="padding:12px; text-align:center;">
+                    <label for="nueva_foto" style="cursor:pointer; color:#174C7F; font-weight:bold;">Cambiar foto</label>
+                    <input type="file" name="nueva_foto" id="nueva_foto" accept="image/*" style="display:none;" onchange="this.form.submit();">
+                    <p><label for="logout" style="cursor:pointer; color:#174C7F; font-weight:bold;">Cerrar Sesión</label>
+                    <input type="button" id="logout" style="display:none;" onclick="window.location.href='logout.php';">
+                </form>
+                <div style="border-top:1px solid #eee;"></div>
+            </div>
+        </div>
+        
         <?php if ($tipo_usuario == 'admin'): ?>
             <a href="ag_user.php" class="btn-volver">Agregar Usuario</a>
             <a href="admin_user.php" class="btn-volver">Administrar Usuarios</a>
@@ -76,8 +92,10 @@ $nextcloud_password = $_SESSION["password"]; // Contraseña de Nextcloud (passwo
     <div class="marco">
         <div class="contenedor">
             <div class="iframe-container">
-                <iframe id="contentFrame" src="<?php echo htmlspecialchars($url); ?>"></iframe>
-                <button class="fullscreen-button" onclick="toggleFullScreen()">Pantalla Completa</button>
+                <iframe id="contentFrame" src="<?php echo htmlspecialchars($url); ?>" style="position:relative; z-index:1;"></iframe>
+                <div style="display:flex; gap:8px; margin-top:8px; justify-content:center;">
+                    <button class="fullscreen-button" onclick="toggleFullScreen()">Pantalla Completa</button>
+                </div>
             </div>
         </div>
     </div>
@@ -114,10 +132,9 @@ $nextcloud_password = $_SESSION["password"]; // Contraseña de Nextcloud (passwo
     </script>
     <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Menú hamburguesa responsivo
     var menuToggle = document.getElementById('menu-toggle');
     var topnav = document.getElementById('mainTopnav');
-
-    // Mostrar el botón solo en móviles
     function checkMobile() {
         if (window.innerWidth <= 768) {
             menuToggle.style.display = 'block';
@@ -127,7 +144,6 @@ document.addEventListener('DOMContentLoaded', function() {
             topnav.style.display = 'block';
         }
     }
-
     menuToggle.addEventListener('click', function() {
         if (topnav.style.display === 'block') {
             topnav.style.display = 'none';
@@ -135,9 +151,36 @@ document.addEventListener('DOMContentLoaded', function() {
             topnav.style.display = 'block';
         }
     });
-
     window.addEventListener('resize', checkMobile);
     checkMobile();
+
+    // Menú de foto de perfil
+    var pic = document.getElementById('profile-pic');
+    var menu = document.getElementById('profile-menu');
+    var iframe = document.getElementById('contentFrame');
+
+    if (pic && menu && iframe) {
+        pic.addEventListener('click', function(e) {
+            e.stopPropagation();
+            var isOpen = menu.style.display === 'block';
+            menu.style.display = isOpen ? 'none' : 'block';
+            if (!isOpen) {
+                iframe.style.pointerEvents = 'none';
+                iframe.style.filter = 'blur(2px)';
+            } else {
+                iframe.style.pointerEvents = '';
+                iframe.style.filter = '';
+            }
+        });
+        menu.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+        document.addEventListener('click', function() {
+            menu.style.display = 'none';
+            iframe.style.pointerEvents = '';
+            iframe.style.filter = '';
+        });
+    }
 });
 </script>
 </body>
