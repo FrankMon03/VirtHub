@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         shell_exec("docker restart $cid");
                         break;
                     case 'delete':
-                        shell_exec("docker rm $cid");
+                        shell_exec("docker rm -f $cid");
                         break;
                 }
             }
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 shell_exec("docker restart $id");
                 break;
             case 'delete':
-                shell_exec("docker rm $id");
+                shell_exec("docker rm -f $id");
                 break;
         }
     }

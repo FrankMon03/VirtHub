@@ -58,31 +58,34 @@ $foto_path = "./profile/" . $foto_perfil;
 <body>
     <header>
         <div class="header-text">
-        <img src="../pic/logo_empersa.png" alt="" class="d-inline-block align-text-top">
-        <div class="header-text">
-            <h1 class="text-light"><?php echo $nombre . " " . $apellido; ?></h1>
-            <p class="text-light grupo-text"><?php echo $grupo; ?></p>
+            <img src="../pic/logo_empersa.png" alt="" class="d-inline-block align-text-top">
+            <div class="header-text">
+                <h1 class="text-light"><?php echo $nombre . " " . $apellido; ?></h1>
+                <p class="text-light grupo-text"><?php echo $grupo; ?></p>
+            </div>
+            <img src="../pic/virthub_logo.png" alt="" class="d-inline-block align-text-top">
+            <!-- Foto de perfil alineada a la derecha y menú a la par -->
+            <div style="position:absolute; right:30px; top:20px; display:inline-flex; align-items:center; flex-direction:row;">
+                <div class="profile-pic-frame" style="position:relative;">
+                    <img src="<?php echo $foto_path; ?>" alt="Foto de perfil" id="profile-pic">
+                    <div id="profile-menu">
+                        <form id="form-foto" action="update_foto.php" method="post" enctype="multipart/form-data" style="padding:12px; text-align:center;">
+                            <label for="nueva_foto" style="cursor:pointer; color:#174C7F; font-weight:bold;">Cambiar foto</label>
+                            <input type="file" name="nueva_foto" id="nueva_foto" accept="image/*" style="display:none;" onchange="this.form.submit();">
+                            <p><label for="logout" style="cursor:pointer; color:#174C7F; font-weight:bold;">Cerrar Sesión</label>
+                            <input type="button" id="logout" style="display:none;" onclick="window.location.href='logout.php';">
+                        </form>
+                        <div style="border-top:1px solid #eee;"></div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <img src="../pic/virthub_logo.png" alt="" class="d-inline-block align-text-top">
     </header>
     <button id="menu-toggle" class="btn-volver" style="display:none; margin:10px auto;">☰ Menú</button>
-    <div class="topnav" id="mainTopnav" style="position:relative;">
-        <div style="position:relative; display:inline-flex; align-items:center; vertical-align:middle; margin-right:10px;">
-            <div class="profile-pic-frame">
-                <img src="<?php echo $foto_path; ?>" alt="Foto de perfil" id="profile-pic">
-            </div>
-            <div id="profile-menu" style="display:none; position:absolute; right:0; top:60px; background:rgba(255,255,255,0.98); border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.12); min-width:180px; z-index:2147483647;">
-                <form id="form-foto" action="update_foto.php" method="post" enctype="multipart/form-data" style="padding:12px; text-align:center;">
-                    <label for="nueva_foto" style="cursor:pointer; color:#174C7F; font-weight:bold;">Cambiar foto</label>
-                    <input type="file" name="nueva_foto" id="nueva_foto" accept="image/*" style="display:none;" onchange="this.form.submit();">
-                    <p><label for="logout" style="cursor:pointer; color:#174C7F; font-weight:bold;">Cerrar Sesión</label>
-                    <input type="button" id="logout" style="display:none;" onclick="window.location.href='logout.php';">
-                </form>
-                <div style="border-top:1px solid #eee;"></div>
-            </div>
-        </div>
-        
+
+    
         <?php if ($tipo_usuario == 'admin'): ?>
+            <div class="topnav" id="mainTopnav" style="position:relative;">
             <a href="ag_user.php" class="btn-volver">Agregar Usuario</a>
             <a href="admin_user.php" class="btn-volver">Administrar Usuarios</a>
             <a href="admin_docker.php" class="btn-volver">Administrar Docker</a>
@@ -114,11 +117,6 @@ $foto_path = "./profile/" . $foto_perfil;
             }
         }
 
-        function openNextcloud() {
-            var nextcloudWindow = window.open('', 'nextcloudWindow');
-            document.getElementById('nextcloudForm').submit();
-        }
-
          // Función para ocultar la parte de la URL después del signo de interrogación
         function hideUrlParams() {
         if (window.history.replaceState) {
@@ -136,49 +134,53 @@ document.addEventListener('DOMContentLoaded', function() {
     var menuToggle = document.getElementById('menu-toggle');
     var topnav = document.getElementById('mainTopnav');
     function checkMobile() {
-        if (window.innerWidth <= 768) {
-            menuToggle.style.display = 'block';
-            topnav.style.display = 'none';
+        if (topnav) { // Solo si existe topnav
+            if (window.innerWidth <= 768) {
+                menuToggle.style.display = 'block';
+                topnav.style.display = 'none';
+            } else {
+                menuToggle.style.display = 'none';
+                topnav.style.display = 'block';
+            }
         } else {
             menuToggle.style.display = 'none';
-            topnav.style.display = 'block';
         }
     }
-    menuToggle.addEventListener('click', function() {
-        if (topnav.style.display === 'block') {
-            topnav.style.display = 'none';
-        } else {
-            topnav.style.display = 'block';
-        }
-    });
+    if (menuToggle && topnav) {
+        menuToggle.addEventListener('click', function() {
+            if (topnav.style.display === 'block') {
+                topnav.style.display = 'none';
+            } else {
+                topnav.style.display = 'block';
+            }
+        });
+    }
     window.addEventListener('resize', checkMobile);
     checkMobile();
 
     // Menú de foto de perfil
     var pic = document.getElementById('profile-pic');
     var menu = document.getElementById('profile-menu');
-    var iframe = document.getElementById('contentFrame');
+    var marco = document.querySelector('.marco');
 
-    if (pic && menu && iframe) {
+    if (pic && menu && marco) {
         pic.addEventListener('click', function(e) {
             e.stopPropagation();
-            var isOpen = menu.style.display === 'block';
-            menu.style.display = isOpen ? 'none' : 'block';
+            var isOpen = menu.classList.contains('open');
             if (!isOpen) {
-                iframe.style.pointerEvents = 'none';
-                iframe.style.filter = 'blur(2px)';
+                menu.classList.add('open');
+                marco.classList.add('blur');
             } else {
-                iframe.style.pointerEvents = '';
-                iframe.style.filter = '';
+                menu.classList.remove('open');
+                marco.classList.remove('blur');
             }
         });
         menu.addEventListener('click', function(e) {
             e.stopPropagation();
         });
         document.addEventListener('click', function() {
-            menu.style.display = 'none';
-            iframe.style.pointerEvents = '';
-            iframe.style.filter = '';
+            menu.classList.remove('open');
+            marco.classList.remove('blur');
         });
     }
 });

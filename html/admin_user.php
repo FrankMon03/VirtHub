@@ -80,8 +80,9 @@ $result = $conn->query($sql);
 
                             echo "<form action='delete_user.php' method='post' style='display:inline;'>";
                             echo "<input type='hidden' name='matricula' value='" . $row["matricula"] . "'>";
-                            echo "<button type='submit' class='btn-volver'>Eliminar</button>";
+                            
                             echo "</form>";
+                            echo "<button type='button' class='btn-volver btn-eliminar' data-nombre='" . htmlspecialchars($row["nombre"]) . "' data-matricula='" . $row["matricula"] . "'>Eliminar</button>";
                             echo "</td>";
                             echo "</tr>";
                         }
@@ -93,6 +94,64 @@ $result = $conn->query($sql);
             </table>
         </div>
     </div>
+
+    <!-- Modal de confirmación -->
+    <div id="modal-eliminar" style="display:none; position:fixed; top:0; right:0; width:350px; height:100vh; background:#fff; box-shadow:-4px 0 20px rgba(0,0,0,0.2); z-index:9999; transform:translateX(100%); transition:transform 0.4s;">
+        <div style="padding:32px;">
+            <h3>Confirmar eliminación</h3>
+            <p id="modal-text"></p>
+            <div style="margin-top:24px; display:flex; gap:16px; justify-content:flex-end;">
+                <button id="btn-si" class="btn-volver" style="background:#e74c3c; color:#fff;">Sí</button>
+                <button id="btn-no" class="btn-volver">No</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var modal = document.getElementById('modal-eliminar');
+        var modalText = document.getElementById('modal-text');
+        var btnSi = document.getElementById('btn-si');
+        var btnNo = document.getElementById('btn-no');
+        var matriculaEliminar = null;
+
+        // Mostrar modal al hacer click en eliminar
+        document.querySelectorAll('.btn-eliminar').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var nombre = this.getAttribute('data-nombre');
+                matriculaEliminar = this.getAttribute('data-matricula');
+                modalText.textContent = "¿Está seguro de eliminar al usuario " + nombre + "?";
+                modal.style.display = 'block';
+                setTimeout(function() {
+                    modal.style.transform = 'translateX(0)';
+                }, 10);
+            });
+        });
+
+        // Botón NO
+        btnNo.addEventListener('click', function() {
+            modal.style.transform = 'translateX(100%)';
+            setTimeout(function() {
+                modal.style.display = 'none';
+            }, 400);
+        });
+
+        // Botón SÍ
+        btnSi.addEventListener('click', function() {
+            // Crear y enviar formulario por POST
+            var form = document.createElement('form');
+            form.method = 'post';
+            form.action = 'delete_user.php';
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'matricula';
+            input.value = matriculaEliminar;
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+        });
+    });
+    </script>
 </body>
 </html>
 
